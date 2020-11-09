@@ -145,14 +145,21 @@ modalCountry();
 
 $("#covid-form").submit(async (event) => {
   event.preventDefault();
+  $("#iniciarsesion").hide();
+  $("#situacionchile").removeClass("d-none");
+  $("#cerrarsesion").removeClass("d-none");
+
   const email = document.getElementById("email-covid").value;
   const password = document.getElementById("password-covid").value;
   const JWT = await jwtData(email, password);
+  localStorage.setItem("token", JWT);
   console.log(email);
   console.log(password);
-  const confirmados = await getConfirmed(JWT);
-  const muertos = await getDeaths(JWT);
-  const recuperados = await getRecovered(JWT);
+  const confirmados = await getConfirmed();
+  const muertos = await getDeaths();
+  const recuperados = await getRecovered();
+
+  console.log(confirmados);
 });
 
 const jwtData = async (email, password) => {
@@ -170,12 +177,14 @@ const jwtData = async (email, password) => {
 };
 
 // Confirmados
-const getConfirmed = async (jwt) => {
+const getConfirmed = async () => {
+  const token = localStorage.getItem("token");
+
   try {
     const response = await fetch("http://localhost:3000/api/confirmed", {
       method: "GET",
       headers: {
-        Authorization: `Bearer ${jwt} `,
+        Authorization: `Bearer ${token} `,
       },
     });
     const { data } = await response.json();
@@ -185,12 +194,13 @@ const getConfirmed = async (jwt) => {
   }
 };
 // Muertos
-const getDeaths = async (jwt) => {
+const getDeaths = async () => {
+  const token = localStorage.getItem("token");
   try {
     const response = await fetch("http://localhost:3000/api/deaths", {
       method: "GET",
       headers: {
-        Authorization: `Bearer ${jwt} `,
+        Authorization: `Bearer ${token} `,
       },
     });
     const { data } = await response.json();
@@ -200,12 +210,13 @@ const getDeaths = async (jwt) => {
   }
 };
 // Recuperados
-const getRecovered = async (jwt) => {
+const getRecovered = async () => {
+  const token = localStorage.getItem("token");
   try {
     const response = await fetch("http://localhost:3000/api/recovered", {
       method: "GET",
       headers: {
-        Authorization: `Bearer ${jwt} `,
+        Authorization: `Bearer ${token} `,
       },
     });
     const { data } = await response.json();
