@@ -28,7 +28,7 @@ const paises10000 = async () => {
                                    <td>${element.confirmed}</td>
                                    <td>${element.deaths}</td>
                                    <td>${element.recovered}</td>
-                                   <td><button type="button" class="btn btn-success" onclick="modalPais('${element.location}')" data-toggle="modal" data-target="#exampleModal">Detalles</button></td>
+                                   <td><button type="button" class="btn btn-success" onclick="modalCountry('${element.location}')" data-toggle="modal" data-target="#exampleModal">Detalles</button></td>
                                </tr>
                        `
       );
@@ -111,17 +111,16 @@ const mostrarGrafica = (dataGrafico) => {
 
 // Modal 2
 
-const modalPais = async (country) => {
+const modalCountry = async (country) => {
+  document.getElementById("chartModalGrafico").innerHTML = "";
   const url = `http://localhost:3000/api/countries/${country}`;
   const response = await fetch(url);
   const data = await response.json();
-  $("#modalgrafico").html(
-    `<div id="chartModalGrafico" style="height: 300px; width: 100%;"></div>`
-  );
+
   var chart = new CanvasJS.Chart("chartModalGrafico", {
     animationEnabled: true,
     title: {
-      text: "",
+      text: data.data.location,
     },
     data: [
       {
@@ -130,14 +129,14 @@ const modalPais = async (country) => {
         yValueFormatString: '##0.00"%"',
         indexLabel: "{label} {y}",
         dataPoints: [
-          { y: `${data.data.deaths}`, label: "Muertos" },
-          { y: `${data.data.confirmed}`, label: "Confirmados" },
-          { y: `${data.data.recovered}`, label: "Recuperados" },
-          { y: `${data.data.actived}`, label: "Activos" },
+          { y: data.data.deaths, label: "Muertos" },
+          { y: data.data.confirmed, label: "Confirmados" },
+          { y: data.data.recovered, label: "Recuperados" },
+          { y: data.data.active, label: "Activos" },
         ],
       },
     ],
   });
   chart.render();
-  modalPais();
 };
+modalCountry();
