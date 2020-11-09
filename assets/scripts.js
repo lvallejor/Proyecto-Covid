@@ -3,7 +3,7 @@ const getDataMundial = async () => {
   try {
     const response = await fetch("http://localhost:3000/api/total");
     const covidMundial = await response.json();
-    console.log(covidMundial);
+    //console.log(covidMundial);
     return covidMundial;
   } catch (e) {
     console.log(e);
@@ -17,8 +17,6 @@ const paises10000 = async () => {
   try {
     const dataMundial = await getDataMundial();
 
-    // const arregloGrafico = {};
-
     dataMundial.data.forEach(async (element) => {
       const elementDom = document.getElementsByClassName("tabla-general")[0];
       elementDom.insertAdjacentHTML(
@@ -30,7 +28,7 @@ const paises10000 = async () => {
                                    <td>${element.confirmed}</td>
                                    <td>${element.deaths}</td>
                                    <td>${element.recovered}</td>
-                                   <td><button type="button" class="btn btn-success" onclick="modalPais(${element.location})">Detalles</button></td>
+                                   <td><button type="button" class="btn btn-success" onclick="modalPais('${element.location}')" data-toggle="modal" data-target="#exampleModal">Detalles</button></td>
                                </tr>
                        `
       );
@@ -43,109 +41,103 @@ const paises10000 = async () => {
 };
 paises10000();
 
-// CanvasJs
-const imprimirGrafico = () => {
-  var chart = new CanvasJS.Chart("chartContainer", {
+// Funcion para el grafico y filtrar por paises con mayor a 300.000 casos confirmados
+
+(async () => {
+  let response = await fetch("http://localhost:3000/api/total");
+  let { data } = await response.json();
+
+  data = data.filter((p) => p.active > 300000);
+
+  const dataGrafico = {
+    labels: data.map((p) => p.location),
+    datasets: [
+      {
+        label: "Activos",
+        backgroundColor: "red",
+        data: data.map((p) => p.active),
+      },
+      {
+        label: "Recuperados",
+        backgroundColor: "blue",
+        data: data.map((p) => p.recovered),
+      },
+      {
+        label: "Muertos",
+        backgroundColor: "green",
+        data: data.map((p) => p.deaths),
+      },
+      {
+        label: "Confirmados",
+        backgroundColor: "yellow",
+        data: data.map((p) => p.confirmed),
+      },
+    ],
+  };
+
+  //   const paises = data.map((p) => p.location);
+  //   const recuperados = data.map((p) => p.recovered);
+  //   const muertos = data.map((p) => p.deaths);
+  //   const confirmados = data.map((p) => p.confirmed);
+  //   const activos = data.map((p) => p.active);
+  //   console.log(activos);
+  //   console.log(confirmados);
+  //   console.log(muertos);
+  //   console.log(recuperados);
+  //   console.log(paises);
+  //   console.log(data);
+  //   return paises;
+
+  mostrarGrafica(dataGrafico);
+})();
+// ChartsJs
+const mostrarGrafica = (dataGrafico) => {
+  var ctx = document.getElementById("canvas").getContext("2d");
+  window.myBar = new Chart(ctx, {
+    type: "bar",
+    data: dataGrafico,
+    options: {
+      responsive: true,
+      legend: {
+        position: "top",
+      },
+      title: {
+        display: true,
+        text: "Paises con mas de 300.000 casos de Covid19 confirmados",
+      },
+    },
+  });
+};
+
+// Modal 2
+
+const modalPais = async (country) => {
+  const url = `http://localhost:3000/api/countries/${country}`;
+  const response = await fetch(url);
+  const data = await response.json();
+  $("#modalgrafico").html(
+    `<div id="chartModalGrafico" style="height: 300px; width: 100%;"></div>`
+  );
+  var chart = new CanvasJS.Chart("chartModalGrafico", {
     animationEnabled: true,
     title: {
-      text: "Paises con Covid19 mayor a 150.000 casos activos",
-    },
-    axisX: {
-      interval: 1,
-      intervalType: "year",
-      valueFormatString: "YYYY",
-    },
-    axisY: {
-      suffix: "",
-    },
-    toolTip: {
-      shared: true,
-    },
-    legend: {
-      reversed: true,
-      verticalAlign: "center",
-      horizontalAlign: "right",
+      text: "",
     },
     data: [
       {
-        type: "stackedColumn100",
-        name: "Casos Activos",
-        showInLegend: true,
-        xValueFormatString: "YYYY",
-        yValueFormatString: '#,##0""',
+        type: "pie",
+        startAngle: 240,
+        yValueFormatString: '##0.00"%"',
+        indexLabel: "{label} {y}",
         dataPoints: [
-          { x: new Date(2010, 0), y: 40 },
-          { x: new Date(2011, 0), y: 50 },
-          { x: new Date(2012, 0), y: 60 },
-          { x: new Date(2013, 0), y: 61 },
-          { x: new Date(2014, 0), y: 63 },
-          { x: new Date(2015, 0), y: 65 },
-          { x: new Date(2016, 0), y: 67 },
-        ],
-      },
-      {
-        type: "stackedColumn100",
-        name: "Casos confirmados",
-        showInLegend: true,
-        xValueFormatString: "YYYY",
-        yValueFormatString: '#,##0""',
-        dataPoints: [
-          { x: new Date(2010, 0), y: 28 },
-          { x: new Date(2011, 0), y: 18 },
-          { x: new Date(2012, 0), y: 12 },
-          { x: new Date(2013, 0), y: 10 },
-          { x: new Date(2014, 0), y: 10 },
-          { x: new Date(2015, 0), y: 7 },
-          { x: new Date(2016, 0), y: 5 },
-        ],
-      },
-      {
-        type: "stackedColumn100",
-        name: "Casos muertos",
-        showInLegend: true,
-        xValueFormatString: "YYYY",
-        yValueFormatString: '#,##0""',
-        dataPoints: [
-          { x: new Date(2010, 0), y: 15 },
-          { x: new Date(2011, 0), y: 12 },
-          { x: new Date(2012, 0), y: 10 },
-          { x: new Date(2013, 0), y: 9 },
-          { x: new Date(2014, 0), y: 7 },
-          { x: new Date(2015, 0), y: 5 },
-          { x: new Date(2016, 0), y: 1 },
-        ],
-      },
-      {
-        type: "stackedColumn100",
-        name: "Recuperados",
-        showInLegend: true,
-        xValueFormatString: "YYYY",
-        yValueFormatString: '#,##0""',
-        dataPoints: [
-          { x: new Date(2010, 0), y: 17 },
-          { x: new Date(2011, 0), y: 20 },
-          { x: new Date(2012, 0), y: 18 },
-          { x: new Date(2013, 0), y: 20 },
-          { x: new Date(2014, 0), y: 20 },
-          { x: new Date(2015, 0), y: 23 },
-          { x: new Date(2016, 0), y: 27 },
+          { y: `${data.data.deaths}`, label: "Muertos" },
+          { y: `${data.data.confirmed}`, label: "Confirmados" },
+          { y: `${data.data.recovered}`, label: "Recuperados" },
+          { y: `${data.data.actived}`, label: "Activos" },
         ],
       },
     ],
   });
   chart.render();
+  modalPais();
 };
-imprimirGrafico();
-
-// modal
-
-// const modalPais = (element) => {
-//      try {
-//     const response = await fetch("http://localhost:3000/api/countries/{country}");
-//     const covidPais = await response.json();
-//     console.log(covidPais);
-//     return covidMundial;
-//   } catch (e) {
-//     console.log(e);
-//   }
-// }

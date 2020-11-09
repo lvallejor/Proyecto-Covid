@@ -43,7 +43,7 @@
     <section class="grafico mt-5">
         <div class="container">
 
-            <div id="chartContainer" style="height: 300px; width: 100%;"></div>
+            <canvas id="canvas" style="height: 300px; width: 100%;"></canvas>
         </div>
     </section>
 
@@ -57,31 +57,24 @@
     </div>
 
 
-    <!-- Modal -->
-
-    <!-- Button trigger modal -->
-    <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#staticBackdrop">
-        Launch static backdrop modal
-    </button> -->
-
 
     <!-- Cuerpo del modal -->
-    <div class="modal fade" id="staticBackdrop" data-backdrop="static" data-keyboard="false" tabindex="-1"
-        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <!-- Modal -->
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Estadisticas Covid19</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body">
-                    ...
+                <div id="modalgrafico">
+
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-primary">Understood</button>
+
                 </div>
             </div>
         </div>
@@ -91,6 +84,8 @@
     <!-- Aqui va la tabla -->
     <section class="lista mt-5">
         <div class="col-md-12">
+
+            <h2 class="text-center">Situacion Mundial</h2>
             <div id="js-table-wrapper" class="col-md-12">
                 <table id="insta-photos" class="table">
                     <thead class=" thead-dark">
@@ -123,11 +118,16 @@
         integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
         crossorigin="anonymous"></script>
 
-    <!-- Canvas -->
+    <!-- Chart -->
 
+    <script src="https://www.chartjs.org/dist/2.9.4/Chart.min.js"></script>
+    <script src="https://www.chartjs.org/samples/latest/utils.js"></script>
+
+    <!-- Canvas -->
     <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 
-    <script src="./assets/scripts.js"></script>
+
+    <script src="assets/scripts.js"></script>
 </body>
 
 </html>
