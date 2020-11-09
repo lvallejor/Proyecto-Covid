@@ -27,10 +27,15 @@
                     <li class="nav-item color">
                         <a class="nav-link d-none d-lg-block d-print-block" href="#">Home</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item d-none">
                         <a class="nav-link" href="#">Situacion Chile</a>
                     </li>
                     <li class="nav-item">
+                        <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#sesionModal">
+                            Iniciar Sesion
+                        </button>
+                    </li>
+                    <li class="nav-item d-none">
                         <a class="nav-link" href="#">Cerrar sesion</a>
                     </li>
                 </ul>
@@ -57,9 +62,7 @@
     </div>
 
 
-
-
-    <!-- Modal -->
+    <!-- Modal 1 -->
     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -80,6 +83,36 @@
         </div>
     </div>
 
+
+    <!-- Modal del Hito 2 -->
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="sesionModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ingrese Usuario y Correo</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="covid-form">
+                        <div class="form-group">
+                            <label for="js-input-email">Email address</label>
+                            <input type="email" class="form-control" id="email-covid" aria-describedby="emailHelp">
+                        </div>
+                        <div class="form-group">
+                            <label for="js-input-password">Password</label>
+                            <input type="password" class="form-control" id="password-covid">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Ingresar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Aqui va la tabla -->
     <section class="lista mt-5">

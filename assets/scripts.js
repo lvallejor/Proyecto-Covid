@@ -140,3 +140,77 @@ const modalCountry = async (country) => {
   chart.render();
 };
 modalCountry();
+
+// JWT
+
+$("#covid-form").submit(async (event) => {
+  event.preventDefault();
+  const email = document.getElementById("email-covid").value;
+  const password = document.getElementById("password-covid").value;
+  const JWT = await jwtData(email, password);
+  console.log(email);
+  console.log(password);
+  const confirmados = await getConfirmed(JWT);
+  const muertos = await getDeaths(JWT);
+  const recuperados = await getRecovered(JWT);
+});
+
+const jwtData = async (email, password) => {
+  try {
+    const response = await fetch("http://localhost:3000/api/login", {
+      method: "POST",
+      body: JSON.stringify({ email: email, password: password }),
+    });
+    const { token } = await response.json();
+    console.log(token);
+    return token;
+  } catch (err) {
+    console.error(`Error: ${err} `);
+  }
+};
+
+// Confirmados
+const getConfirmed = async (jwt) => {
+  try {
+    const response = await fetch("http://localhost:3000/api/confirmed", {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${jwt} `,
+      },
+    });
+    const { data } = await response.json();
+    return data;
+  } catch (err) {
+    console.error(`Error: ${err} `);
+  }
+};
+// Muertos
+const getDeaths = async (jwt) => {
+  try {
+    const response = await fetch("http://localhost:3000/api/deaths", {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${jwt} `,
+      },
+    });
+    const { data } = await response.json();
+    return data;
+  } catch (err) {
+    console.error(`Error: ${err} `);
+  }
+};
+// Recuperados
+const getRecovered = async (jwt) => {
+  try {
+    const response = await fetch("http://localhost:3000/api/recovered", {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${jwt} `,
+      },
+    });
+    const { data } = await response.json();
+    return data;
+  } catch (err) {
+    console.error(`Error: ${err} `);
+  }
+};
