@@ -25,10 +25,10 @@
             <div class="collapse navbar-collapse">
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item color">
-                        <a class="nav-link d-none d-lg-block d-print-block" href="#">Home</a>
+                        <a class="nav-link d-none d-lg-block d-print-block" href="#" onclick="home()">Home</a>
                     </li>
                     <li class="nav-item d-none" id="situacionchile">
-                        <a class="nav-link" href="#">Situacion Chile</a>
+                        <a class="nav-link" onclick="situacionChile()" href="#">Situacion Chile</a>
                     </li>
                     <li class="nav-item" id="iniciarsesion">
                         <button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#sesionModal">
@@ -36,7 +36,7 @@
                         </button>
                     </li>
                     <li class="nav-item d-none" id="cerrarsesion">
-                        <a class="nav-link" href="#">Cerrar sesion</a>
+                        <a class="nav-link" href="#" onclick="cerrarSesion()">Cerrar sesion</a>
                     </li>
                 </ul>
             </div>
@@ -44,9 +44,9 @@
     </nav>
 
 
-    <!-- Aqui va el grafico -->
+    <!-- Aqui va el grafico filtrado -->
     <section class="grafico mt-5">
-        <div class="container">
+        <div class="container" id="graficoFiltrado">
 
             <canvas id="canvas" style="height: 300px; width: 100%;"></canvas>
         </div>
@@ -60,6 +60,12 @@
             </div>
         </div>
     </div>
+
+    <!-- Aqui va el grafico de Chile -->
+    <section id="Chile" class="d-none text-center">
+        <div id="chartContainer" style="height: 300px; width: 100%;"></div>
+    </section>
+
 
 
     <!-- Modal 1 -->
@@ -115,7 +121,7 @@
     </div>
 
     <!-- Aqui va la tabla -->
-    <section class="lista mt-5">
+    <section class="lista mt-5" id="tablaMundial">
         <div class="col-md-12">
 
             <h2 class="text-center">Situacion Mundial</h2>
