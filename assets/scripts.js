@@ -1,11 +1,10 @@
 // // Validacion para recarga de pagina
-// $(document).ready(function () {
-//   const token = localStorage.getItem("token");
-//   if (token) {
-//     postLogin("#situacionchile".click());
-//   }
-// });
-
+$(document).ready(async function () {
+  const token = localStorage.getItem("token");
+  if (token) {
+    $("#situacionchile").click();
+  }
+});
 //Peticion a la api
 const getDataMundial = async () => {
   try {
