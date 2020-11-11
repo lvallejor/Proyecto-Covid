@@ -1,3 +1,11 @@
+// // Validacion para recarga de pagina
+// $(document).ready(function () {
+//   const token = localStorage.getItem("token");
+//   if (token) {
+//     postLogin("#situacionchile".click());
+//   }
+// });
+
 //Peticion a la api
 const getDataMundial = async () => {
   try {
@@ -28,7 +36,7 @@ const paises10000 = async () => {
                                    <td>${element.confirmed}</td>
                                    <td>${element.deaths}</td>
                                    <td>${element.recovered}</td>
-                                   <td><button type="button" class="btn btn-success" onclick="modalCountry('${element.location}')" data-toggle="modal" data-target="#exampleModal">Detalles</button></td>
+                                   <td><button type="button" class="btn btn-info" onclick="modalCountry('${element.location}')" data-toggle="modal" data-target="#exampleModal">Ver Detalles</button></td>
                                </tr>
                        `
       );
@@ -69,7 +77,7 @@ paises10000();
       },
       {
         label: "Confirmados",
-        backgroundColor: "yellow",
+        backgroundColor: "purple",
         data: data.map((p) => p.confirmed),
       },
     ],
@@ -113,7 +121,7 @@ const modalCountry = async (country) => {
       {
         type: "pie",
         startAngle: 240,
-        yValueFormatString: '##0.00"%"',
+        yValueFormatString: '##0""',
         indexLabel: "{label} {y}",
         dataPoints: [
           { y: data.data.deaths, label: "Muertos" },
@@ -214,6 +222,7 @@ const getRecovered = async () => {
 
 //Home
 const home = () => {
+  $(".spiner2").addClass("d-none");
   $("#graficoFiltrado").removeClass("d-none");
   $("#tablaMundial").removeClass("d-none");
   $("#Chile").addClass("d-none");
@@ -228,13 +237,15 @@ const cerrarSesion = () => {
   $("#situacionchile").addClass("d-none");
   $("#cerrarsesion").addClass("d-none");
   $("#iniciarsesion").show();
+  $(".spiner2").addClass("d-none");
   localStorage.removeItem("token");
+  location.reload();
 };
 
 // Grafico Situacion Chile
 
 const situacionChile = (confirmados, muertos, recuperados) => {
-  console.log(recuperados);
+  $(".spiner2").removeClass("d-none");
   $("#graficoFiltrado").addClass("d-none");
   $("#tablaMundial").addClass("d-none");
   $("#Chile").removeClass("d-none");
@@ -245,23 +256,25 @@ const situacionChile = (confirmados, muertos, recuperados) => {
       labels: recuperados.map((e) => e.date),
       datasets: [
         {
+          label: "fallecidos",
+          borderColor: "red",
+          backgroundColor: "red",
+          fill: false,
+          data: muertos.map((e) => e.total),
+        },
+        {
           label: "recuperados",
+          borderColor: "blue",
           backgroundColor: "blue",
           data: recuperados.map((e) => e.total),
           fill: false,
         },
-
-        {
-          label: "fallecidos",
-          backgroundColor: "red",
-          fill: false,
-          data: muertos.map((e) => e.date),
-        },
         {
           label: "confirmados",
+          borderColor: "purple",
           fill: false,
-          backgroundColor: "yellow",
-          data: confirmados.map((e) => e.date),
+          backgroundColor: "purple",
+          data: confirmados.map((e) => e.total),
         },
       ],
     },
@@ -272,8 +285,10 @@ const situacionChile = (confirmados, muertos, recuperados) => {
       },
       title: {
         display: true,
-        text: "Situacion Covid10 Chile",
+        text: "Situacion Covid19 Chile",
       },
     },
   });
+
+  $(".spiner2").addClass("d-none");
 };

@@ -1,0 +1,8 @@
+body {
+    background-color: #d1fbe5;
+    overflow-x: hidden;
+}
+
+.modal-backdrop {
+    background-color: blueviolet;
+}
