@@ -61,20 +61,20 @@
         <div class="col-md-12 text-center">
             <div class="progress d-none spiner">
                 <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar"
-                    aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 50%"></div>
+                    aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 50%">
+                    Cargando...</div>
             </div>
         </div>
 
-        <!-- Aqui va el grafico de Chile -->
+    </div>
+    <!-- Aqui va el grafico de Chile -->
 
-        <canvas class="d-none text-center px-5" id="Chile" style="height: 300px; width: 100%;"></canvas>
-        <div class="col-md-12 text-center spiner2">
-            <div class="spinner-grow text-primary d-none spiner2" style="width: 5rem; height: 5rem;" role="status">
-                <span class="sr-only">Loading...</span>
-            </div>
+    <div class="col-md-12 text-center d-none" id="spiners">
+        <h4>Cargando Situacion Covid19 "Chile"</h4>
+        <div class="spinner-grow text-primary  " style="width: 5rem; height: 5rem;" role="status">
         </div>
     </div>
-
+    <canvas class="d-none text-center px-5" id="Chile" style="height: 300px; width: 100%;"></canvas>
 
 
     <!-- Modal 1 -->
@@ -92,7 +92,6 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-
                 </div>
             </div>
         </div>
@@ -100,8 +99,6 @@
 
 
     <!-- Modal del Hito 2 -->
-
-
     <!-- Modal -->
     <div class="modal fade" id="sesionModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -132,7 +129,6 @@
     <!-- Aqui va la tabla -->
     <section class="lista mt-5" id="tablaMundial">
         <div class="col-md-12">
-
             <h2 class="text-center">Situacion Mundial</h2>
             <div id="js-table-wrapper" class="col-md-12">
                 <table id="insta-photos" class="table">

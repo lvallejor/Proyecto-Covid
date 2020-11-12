@@ -1,10 +1,3 @@
-// // Validacion para recarga de pagina
-$(document).ready(async function () {
-  const token = localStorage.getItem("token");
-  if (token) {
-    $("#situacionchile").click();
-  }
-});
 //Peticion a la api
 const getDataMundial = async () => {
   try {
@@ -148,11 +141,8 @@ $("#covid-form").submit(async (event) => {
   const password = document.getElementById("password-covid").value;
   const JWT = await jwtData(email, password);
   localStorage.setItem("token", JWT);
-  const confirmados = await getConfirmed();
-  const muertos = await getDeaths();
-  const recuperados = await getRecovered();
 
-  situacionChile(confirmados, muertos, recuperados);
+  situacionChile();
 });
 
 const jwtData = async (email, password) => {
@@ -221,7 +211,7 @@ const getRecovered = async () => {
 
 //Home
 const home = () => {
-  $(".spiner2").addClass("d-none");
+  $("#spiners").addClass("d-none");
   $("#graficoFiltrado").removeClass("d-none");
   $("#tablaMundial").removeClass("d-none");
   $("#Chile").addClass("d-none");
@@ -236,18 +226,32 @@ const cerrarSesion = () => {
   $("#situacionchile").addClass("d-none");
   $("#cerrarsesion").addClass("d-none");
   $("#iniciarsesion").show();
-  $(".spiner2").addClass("d-none");
-  localStorage.removeItem("token");
+  $(".spiner").addClass("d-none");
   location.reload();
+  localStorage.removeItem("token");
 };
+
+// Boton situacion chile (se hizo por el spiner)
+$("#situacionchile").click(() => {
+  $("#spiners").addClass("d-none");
+  $(".spiner").addClass("d-none");
+});
 
 // Grafico Situacion Chile
 
-const situacionChile = (confirmados, muertos, recuperados) => {
-  $(".spiner2").removeClass("d-none");
+const situacionChile = async () => {
+  $(".spiner").addClass("d-none");
+  $("#spiners").removeClass("d-none");
   $("#graficoFiltrado").addClass("d-none");
   $("#tablaMundial").addClass("d-none");
   $("#Chile").removeClass("d-none");
+  $("#situacionchile").removeClass("d-none");
+  $("#cerrarsesion").removeClass("d-none");
+  $("#iniciarsesion").hide();
+  const confirmados = await getConfirmed();
+  const muertos = await getDeaths();
+  const recuperados = await getRecovered();
+
   var ctx = document.getElementById("Chile").getContext("2d");
   window.myline = new Chart(ctx, {
     type: "line",
@@ -289,5 +293,16 @@ const situacionChile = (confirmados, muertos, recuperados) => {
     },
   });
 
-  $(".spiner2").addClass("d-none");
+  $("#spiners").addClass("d-none");
 };
+
+// Validacion para recarga de pagina
+$(document).ready(async function () {
+  const token = localStorage.getItem("token");
+  if (token) {
+    $(".spiner").addClass("d-none");
+    $(".spiner").addClass("d-none");
+    $("#tablaMundial").addClass("d-none");
+    situacionChile();
+  }
+});
